@@ -19,7 +19,7 @@
         <a href="#" class="logo"><img src="images/logo02.png" alt="logo"></a>
         <div class="user_info">
             <img src="images/2.jpg" alt="person">
-            <span>欢迎&nbsp;&nbsp;李思思</span>
+            <span>欢迎&nbsp;&nbsp;<i>李思思<i></span>
             <b>管理员</b>
         </div>
         <div class="menu">
@@ -59,26 +59,27 @@
         <iframe src="main_count.html" frameborder="0" id="main_frame" name="main_frame" frameborder="0"
             scrolling="auto"></iframe>
     </div>
-     <!-- bootstarp弹出框 -->
-     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                        <h4 class="modal-title" id="myModalLabel">提示框!!</h4>
-                    </div>
-                    <div class="modal-body my-modal-body"></div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">
-                            狠心关闭
-                        </button>
-                        <button type="button" class="btn btn-primary btn-leave">残忍确认</button>
-                    </div>
+    <!-- bootstarp弹出框 -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">提示框!!</h4>
+                </div>
+                <div class="modal-body my-modal-body"></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">
+                        狠心关闭
+                    </button>
+                    <button type="button" class="btn btn-primary btn-leave">残忍确认</button>
                 </div>
             </div>
         </div>
+    </div>
+    <script src="./js/bootstrap/js/bootstrap.min.js"></script>
     <script>
         var $level01 = $('.level01');
         var $subli = $('.level02 li')
@@ -129,37 +130,57 @@
 
     </script>
 
-</body>
-<script src="./js/bootstrap/js/bootstrap.min.js"></script>
 <script>
     //用户退出
-        //1.退出按钮绑定事件、2弹出bootstrap的模态框提示是否退出
+    //1.退出按钮绑定事件、2弹出bootstrap的模态框提示是否退出
 
-        //取消关闭    确认
-        //ajax调用接口
-        //数据回来返回登录页即可
+    //取消关闭    确认
+    //ajax调用接口
+    //数据回来返回登录页即可
 
 
-    $(function(){
+    $(function () {
         //给退出绑定事件i标签的上一级a
-        $('.icon-tuichu').parent().click(function(){
+        $('.icon-tuichu').parent().click(function () {
             $('.my-modal-body').text('是否退出')
             $('#myModal').modal()
         })
         //点击确认弹框提示
-        $('.btn-leave').click(function(){
+        $('.btn-leave').click(function () {
             $.ajax({
-                url:'https://autumnfish.cn/big/admin/logout',
-                type:'post',
-                success:function(backData){
+                url: 'https://autumnfish.cn/big/admin/logout',
+                type: 'post',
+                success: function (backData) {
                     // console.log(backData);
-                    if(backData.code==200){
-                        window.location.href='./login.html'
+                    if (backData.code == 200) {
+                        window.location.href = './login.html'
                     }
                 }
             })
         })
+        
+        //获取用户信息
+        $.ajax({
+            url:'https://autumnfish.cn/big32/admin/getuser',
+            type:'get',
+            dataType:'json',
+            success:function(backData){
+                // console.log(backData);
+
+                //左侧
+                $('.user_info img').attr('src',backData.data.user_pic)
+
+                //可以通过后代找到
+                // $('.user_info span').html('欢迎&nbsp&nbsp;'+backData.data.nickname)
+                $('.user_info i').html(backData.data.nickname)
+
+                //右侧
+                $('.user_center_link img').attr('src',backData.data.user_pic)
+            }
+        })
     })
 </script>
+</body>
+
 
 </html>
