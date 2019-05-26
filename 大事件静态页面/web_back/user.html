@@ -28,15 +28,15 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="inputEmail3" class="col-sm-2 control-label nickname">昵称：</label>
+                    <label for="inputEmail3" class="col-sm-2 control-label ">昵称：</label>
                     <div class="col-sm-4">
-                        <input type="text" class="form-control" value="思思">
+                        <input type="text" class="form-control nickname" value="思思">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="inputEmail3" class="col-sm-2 control-label email">邮箱：</label>
+                    <label for="inputEmail3" class="col-sm-2 control-label ">邮箱：</label>
                     <div class="col-sm-4">
-                        <input type="text" class="form-control" value="lisisi@126.com">
+                        <input type="text" class="form-control email" value="lisisi@126.com">
                     </div>
                 </div>
 
@@ -49,9 +49,9 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="inputEmail3" class="col-sm-2 control-label password">密码：</label>
+                    <label for="inputEmail3" class="col-sm-2 control-label ">密码：</label>
                     <div class="col-sm-4">
-                        <input type="password" class="form-control" value="12345678">
+                        <input type="password" class="form-control password" value="12345678">
                     </div>
                 </div>
 
@@ -109,8 +109,8 @@
                 dataType: 'json',
                 success: function (backData) {
                     //获取对象信息
-                    // console.log(backData);
-                    for (const key in backData) {
+                    console.log(backData);
+                    for (const key in backData.data) {
                         // console.log(backData[key]);
 
                         $('input.' + key).val(backData.data[key])
