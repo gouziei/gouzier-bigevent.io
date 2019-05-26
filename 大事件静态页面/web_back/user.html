@@ -67,7 +67,6 @@
     <script>
         /*
         获取基础数据
-
         请求地址：<https://autumnfish.cn/big32/admin/userinfo_get>
         请求方式：get
         请求参数：无
@@ -78,6 +77,8 @@
         .调用获取用户详细信息接口
         .数据获取到之后 渲染到 页面上
 
+        
+        用户头像预览
         注意
         1. 通过设置input的class跟服务器返回的数据属性一致直接forin 全部赋值
         2. input type=file 无法显示图片 需要通过img标签才可以
@@ -89,6 +90,16 @@
         3. 调用方法生成url
         4. 设置给隔壁的img即可
 
+        保存修改
+        请求地址：<https://autumnfish.cn/big32/admin/userinfo_edit>
+        请求方式：post
+        请求参数：使用formdata提交
+
+        步骤
+        1. 为修改按钮绑定点击事件
+        2. 获取表单数据
+        3. 通过ajax 结合formData发送到服务器
+        4. 返回数据之后，提示用户
 
         */
         $(function () {
@@ -115,6 +126,25 @@
                 var url = URL.createObjectURL(file)
                 //设置给img
                 $(this).prev().attr('src', url)
+            })
+            //保存按钮点击事件
+            $('.btn-success').click(function(event){
+                event.preventDefault()
+                //阻止页面跳转
+                var formData =new FormData($('form')[0])
+                $.ajax({
+                    url:"https://autumnfish.cn/big32/admin/userinfo_edit",
+                    type:'post',
+                    data:formData,
+                    dataType:'json',
+                    //不设置头
+                    contentType:false,
+                    //不把数据变字符串
+                    processData:false,
+                    success:function(backData){
+                        console.log(backData)
+                    }
+                })
             })
         })
     </script>
