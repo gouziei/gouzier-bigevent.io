@@ -83,6 +83,13 @@
         2. input type=file 无法显示图片 需要通过img标签才可以
         3. type=password 可以直接审查元素 修改type为 text 查看密码
 
+        步骤
+        1. 为input file 绑定change事件 
+        2. 获取this.files[0]
+        3. 调用方法生成url
+        4. 设置给隔壁的img即可
+
+
         */
         $(function () {
             $.ajax({
@@ -93,10 +100,21 @@
                     //获取对象信息
                     // console.log(backData);
                     for (const key in backData) {
+                        // console.log(backData[key]);
+
                         $('input.' + key).val(backData.data[key])
                     }
-                    $('.user_pic').attr('src',backData.data.user_pic)
+                    $('.user_pic').attr('src', backData.data.user_pic)
                 }
+            })
+            //input设置change事件
+            $('#exampleInputFile').change(function () {
+                //files时dom元素属性
+                var file = this.files[0]
+                //生成url
+                var url = URL.createObjectURL(file)
+                //设置给img
+                $(this).prev().attr('src', url)
             })
         })
     </script>
