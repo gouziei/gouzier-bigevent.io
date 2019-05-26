@@ -153,24 +153,29 @@
     <script>
         $(function () {
             function getDate() {
+                //ajax方法
                 $.ajax({
                     url: 'https://autumnfish.cn/big32/admin/category_search',
                     type: 'get',
                     dataType: 'json',
                     success: function (backData) {
+                        //获取数据
                         console.log(backData);
+                        //模板信息
                         var html = template('tem', backData)
                         $('tbody').html(html)
                     }
                 })
             }
-
+            //点击事件
             $('#model_add').click(function () {
                 // alert(124356)
+                //调用方法
                 $.ajax({
                     url: 'https://autumnfish.cn/big32/admin/category_add',
                     type: 'post',
                     data: {
+                        //取值
                         name: $('.cate_name').val(),
                         slug: $('.cate_slug').val()
                     },
