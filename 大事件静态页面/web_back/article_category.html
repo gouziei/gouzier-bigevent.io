@@ -79,7 +79,7 @@
             </table>
         </div>
     </div>
-
+    <!-- 模态框 -->
     <div class="modal fade" id="addModal">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -145,12 +145,13 @@
         <td>{{$value.slug}}</td>
         <td class="text-center">
             <a href='javascript:editTr({"id":"1","slug":"uncategorized","name":"未分类"});' class="btn btn-info btn-xs">编辑</a>
-            <a href="javascript:deleteTr( 1 );" class="btn btn-danger btn-xs">删除</a>
+            <a href="javascript:deleteTr( {{$value.id}} );" class="btn btn-danger btn-xs">删除</a>
         </td>
     </tr>
     {{/each}}
     </script>
     <script>
+
         $(function () {
             function getDate() {
                 //ajax方法
@@ -168,6 +169,24 @@
                 })
             }
             //点击事件
+            window.deleteTr = function(id) {
+                // console.log(id)
+                $.ajax({
+                    url:'http://localhost:8000/admin/category_delete',
+                    type:'post',
+                    data:{
+                        id:id
+                    },
+                    success:function(backData){
+                        // console.log(backData)
+                        if (backData.code==200) {
+                            getDate()
+                        }
+                        
+                    }
+                })
+
+            }
             $('#model_add').click(function () {
                 // alert(124356)
                 //调用方法
@@ -193,21 +212,7 @@
                     }
                 })
             })
-            
-        //     $('.btn-xs').click(function(){
-        //         $.ajax({
-        //             url:"http://localhost:8000/admin/article_edit",
-        //             type:"post",
-        //             data:{
-        //                 id:'',
-        //             },
-        //             success:function(backData){
-        //                 console.log(backData);
-                        
-        //             }
-        //         })
-        //     })
-        // })
+        })
     </script>
 </body>
 
