@@ -155,7 +155,7 @@
             function getDate() {
                 //ajax方法
                 $.ajax({
-                    url: 'https://autumnfish.cn/big32/admin/category_search',
+                    url: 'http://localhost:8000/admin/category_search',
                     type: 'get',
                     dataType: 'json',
                     success: function (backData) {
@@ -172,7 +172,7 @@
                 // alert(124356)
                 //调用方法
                 $.ajax({
-                    url: 'https://autumnfish.cn/big32/admin/category_add',
+                    url: 'http://localhost:8000/admin/category_add',
                     type: 'post',
                     data: {
                         //取值
@@ -193,7 +193,21 @@
                     }
                 })
             })
-        })
+            
+        //     $('.btn-xs').click(function(){
+        //         $.ajax({
+        //             url:"http://localhost:8000/admin/article_edit",
+        //             type:"post",
+        //             data:{
+        //                 id:'',
+        //             },
+        //             success:function(backData){
+        //                 console.log(backData);
+                        
+        //             }
+        //         })
+        //     })
+        // })
     </script>
 </body>
 
