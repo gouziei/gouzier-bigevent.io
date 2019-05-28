@@ -152,7 +152,6 @@
     {{/each}}
     </script>
     <script>
-
         $(function () {
             function getDate() {
                 //ajax方法
@@ -169,9 +168,12 @@
                     }
                 })
             }
-            //点击事件
+            //暴露出去$value.id
             window.deleteTr = function (id) {
+                //获取数据
                 // console.log(id)
+
+                //调用接口
                 $.ajax({
                     url: 'http://localhost:8000/admin/category_delete',
                     type: 'post',
@@ -180,51 +182,76 @@
                     },
                     success: function (backData) {
                         // console.log(backData)
+                        //判断是否等于200如果是就重新获取数据
                         if (backData.code == 200) {
                             getDate()
                         }
-
                     }
                 })
-
             }
-
             //弹出编辑框编辑
             window.editTr = function (data) {
                 // console.log(data)
                 //打印的数据key和值一样可以for in遍历
                 for (const key in data) {
-                    $('input[name=' +key+']').val(data[key])
+                    $('input[name=' + key + ']').val(data[key])
                 }
+                //修改文本title
                 $('.modal-title').text('请不要修改')
                 //新增按钮修改btn-success
                 $('.model_add').text('保存').addClass('btn-success')
             }
- 
+            $('.btn-add').click(function () {
+                $('.modal-title').text('随意')
+                $('#model_add').text('新增').removeClass('btn-success')
+                $('form input').val('')
+            })
+            //点击新增按钮
             $('#model_add').click(function () {
-                // alert(124356)
-                //调用方法
-                $.ajax({
-                    url: 'http://localhost:8000/admin/category_add',
-                    type: 'post',
-                    data: {
-                        //取值
-                        name: $('.cate_name').val(),
-                        slug: $('.cate_slug').val()
-                    },
-                    dataType: 'json',
-                    success: function (backData) {
-                        console.log(backData)
-                        $('#addModal').modal('hide')
-                        // if(backData.code==400){
-                        //     alert('请你完善信息')
-                        // }
-                        if (backData.code == 200) {
-                            //重新获取
-                            getDate()
+                if ($(this).hasClass('btn-success')) {
+                    // var id = $('input[name=id]').val()
+                    // var name = $('input[name=name]').val()
+                    // var slug = $('input[name=slug]').val()
+                    $.ajax({
+                        url: 'http://localhost:8000/admin/category_edit',
+                        type: 'post',
+                        // data: {
+                        //   id: id,
+                        //   slug: slug,
+                        //   name: name
+                        // },
+                        data: $('form').serialize(),
+                        success: function (backData) {
+                            console.log(backData)
+                            //重新获取数据
+                            if (backData.code == 200)
+                                getDate()
                         }
-                    }
-                })
+                    })
+                } else {
+                    // alert(124356)
+                    //调用方法
+                    $.ajax({
+                        url: 'http://localhost:8000/admin/category_add',
+                        type: 'post',
+                        data: {
+                            //取值
+                            name: $('.cate_name').val(),
+                            slug: $('.cate_slug').val()
+                        },
+                        dataType: 'json',
+                        success: function (backData) {
+                            console.log(backData)
+                            $('#addModal').modal('hide')
+                            if (backData.code == 200) {
+                                //重新获取
+                                getDate()
+                            }
+                        }
+                    })
+                }
+                //关闭弹窗
+                $('#addModal').modal('hide')
             })
         })
     </script>
