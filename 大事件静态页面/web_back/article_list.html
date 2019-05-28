@@ -11,6 +11,8 @@
     <link rel="stylesheet" href="css/iconfont.css">
     <link rel="stylesheet" href="css/main.css">
     <script src="js/jquery-1.12.4.min.js"></script>
+    <script src="./js/jquery.twbsPagination.min.js"></script>
+    <!-- 导入分页插件 -->
 </head>
 
 <body>
@@ -367,8 +369,22 @@
                     $('tbody').html(html)
                 }
             })
+
+            $('.pagination').twbsPagination({
+                totalPages:35,
+                visiblePafes:7,
+                first:'最那边',
+                last:"最外头",
+                onPageClick:function(event,page){
+                    //event是参数
+                    console.log(event)
+                    //page是页码
+                    console.log(page)
+                    
+                }
+            })
         }) 
-    </script>
+    </script> 
 </body>
 
 </html>
