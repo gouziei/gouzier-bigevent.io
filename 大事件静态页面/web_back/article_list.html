@@ -341,50 +341,60 @@
         2. 文章数据接口虽然复杂， 但是参数都不是必须的，挨个的尝试添加
         */
         $(function () {
-            $.ajax({
-                url: "http://localhost:8000/admin/category_search",
-                type: 'get',
-                dataType: 'json',
-                success: function (backData) {
-                    // 获取数据
-                    // console.log(backData)
-                    var html = template('tem', backData)
-                    //添加到select
-                    $('#selCategory').append(html)
-                }
-            })
-            //获取分页数据
-            $.ajax({
-                url:'http://localhost:8000/admin/search',
-                type:"get",
-                data:{
-                    page:1,
-                    perpage:5
-                },
-                dataType:'json',
-                success:function(backData){
-                    // console.log(backData)
-                    //数据渲染到页面
-                    var html =template('active',backData)
-                    $('tbody').html(html)
-                }
-            })
+            //页码
+            var myPage = 1
+            //获取文章数据方法
+            function getArticles() {
+                $.ajax({
+                    url: "http://localhost:8000/admin/category_search",
+                    type: 'get',
+                    dataType: 'json',
+                    success: function (backData) {
+                        // 获取数据
+                        // console.log(backData)
+                        var html = template('tem', backData)
+                        //添加到select
+                        $('#selCategory').append(html)
+                    }
+                })
+            }
 
+            //获取文章数据
+            getArticles()
             $('.pagination').twbsPagination({
-                totalPages:35,
-                visiblePafes:7,
-                first:'最那边',
-                last:"最外头",
-                onPageClick:function(event,page){
+                totalPages: 35,
+                visiblePafes: 7,
+                first: '最那边',
+                last: "最外头",
+                prev: "上一页",
+                next: '下一页',
+                onPageClick: function (event, page) {
                     //event是参数
                     console.log(event)
                     //page是页码
                     console.log(page)
-                    
+                    myPage = page
+                    //获取分页数据
+                    $.ajax({
+                        url: 'http://localhost:8000/admin/search',
+                        type: "get",
+                        data: {
+                            page: myPage,
+                            perpage: 7
+                        },
+                        dataType: 'json',
+                        success: function (backData) {
+                            console.log(backData)
+                            //数据渲染到页面
+                            var html = template('active', backData)
+                            $('tbody').html(html)
+                        }
+                    })
+                    getArticles()
                 }
             })
         }) 
-    </script> 
+    </script>
 </body>
 
 </html>
