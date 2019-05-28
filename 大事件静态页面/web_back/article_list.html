@@ -276,12 +276,34 @@
     </script>
     <!-- 导入模板 -->
     <script src="./js/template-web.js"></script>
-    <!-- 定义模板 -->
+
+    <!-- 定义模板选项 -->
     <script id="tem" type="text/html">
     {{each data v}}
         <option>{{v.name}}</option>
-        <option>{{v.slug}}</option>
+        <!-- <option>{{v.slug}}</option> -->
+    {{/each}}
+    </script>
 
+    <!-- 定义模板文章 -->
+    <script id="active" type="text/html">
+    {{each data v}}
+    <tr>
+
+        <td>{{v.title}}</td>
+        <td>{{v.author}}</td>
+        <td>{{v.type}}</td>
+        <td class="text-center">{{v.date}}</td>
+
+
+        <td class="text-center">{{v.state}}</td>
+
+
+        <td class="text-center">
+            <a href="article_edit.html" class="btn btn-default btn-xs">编辑</a>
+            <a href="javascript:deleteTr( 1004 );" class="btn btn-danger btn-xs">删除</a>
+        </td>
+    </tr>
     {{/each}}
     </script>
     <script>
@@ -301,21 +323,51 @@
         $(function () {
 
         })
+
+        文章列表-分页数据获取
+        请求地址：<http://localhost:8000/admin/search>
+        请求方式：get
+        请求参数：page,perpage
+
+        步骤
+        1. 进入文章列表页之后，通过ajax获取分页文章数据
+        2. page&perpage 第一页，每页6条
+        3. 数据回来之后渲染到页面上 模板引擎
+
+        注意
+        1. 如果数据较为复杂，对照着写，否则容易写错
+        2. 文章数据接口虽然复杂， 但是参数都不是必须的，挨个的尝试添加
         */
-        $(function(){
+        $(function () {
             $.ajax({
-                url:"http://localhost:8000/admin/category_search",
-                type:'get',
-                dataType:'json',
-                success:function(backData){
+                url: "http://localhost:8000/admin/category_search",
+                type: 'get',
+                dataType: 'json',
+                success: function (backData) {
                     // 获取数据
                     // console.log(backData)
-                    var html =template('tem',backData)
+                    var html = template('tem', backData)
                     //添加到select
                     $('#selCategory').append(html)
                 }
             })
-        })
+            //获取分页数据
+            $.ajax({
+                url:'http://localhost:8000/admin/search',
+                type:"get",
+                data:{
+                    page:1,
+                    perpage:5
+                },
+                dataType:'json',
+                success:function(backData){
+                    // console.log(backData)
+                    //数据渲染到页面
+                    var html =template('active',backData)
+                    $('tbody').html(html)
+                }
+            })
+        }) 
     </script>
 </body>
 
