@@ -79,7 +79,24 @@
             </form>
         </div>
     </div>
+    <script>
+        /*
+        步骤
 
+        1. 文件选择标签隔壁放一个 img 做预览
+        2. 为#exampleInputFile  表单元素 绑定change事件
+        3. files[0] 获取文件
+        4. URL.createObjectURL 生成url
+        5. 把url设置给img       
+        */
+        $(function () {
+            $('#exampleInputFile').change(function(){
+                var file =this.files[0]
+                var url = URL.createObjectURL(file)
+                $(this).prev('img').attr('src',url)
+            })
+        })
+    </script>
 </body>
 
 </html>
